@@ -6,6 +6,7 @@ export default class Article extends Component {
         super()
         this.state = {
             isOpen: false,
+            //лучше внести этот стейт в CommentList, иначе компонент выходит очень прегруженным
             isCommentsOpen: false
         }
     }
