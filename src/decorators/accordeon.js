@@ -20,7 +20,6 @@ export default (OriginalComponent) => class DecoratedComponent extends Component
             this.setState({
                 isCurrent: !this.state.isCurrent
             })
-        }
-       
+        } 
     }
 }
