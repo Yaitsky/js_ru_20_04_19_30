@@ -3,9 +3,14 @@ import Article from './Article'
 import PropTypes from 'prop-types'
 
 export default class ArticleList extends Component {
+    static propTypes = {
+        articles: PropTypes.array
+    }
+    
     state = {
         openArticleId: null
     }
+
     render() {
         const elements = this.props.articles.map(article => <li key={article.id}>
             <Article article={article}
@@ -24,8 +29,4 @@ export default class ArticleList extends Component {
             openArticleId: id
         })
     }
-}
-
-ArticleList.propTypes = {
-    articles: PropTypes.array
 }
