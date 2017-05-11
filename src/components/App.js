@@ -3,6 +3,7 @@ import ArticleList from './ArticleList'
 import Chart from './Chart'
 import UserForm from './UserForm'
 import Select from 'react-select'
+import Calendar from './Calendar'
 import 'react-select/dist/react-select.css'
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
 
         return (
             <div>
+                <Calendar />
                 <UserForm />
                 <a href = "#" onClick = {this.updateCounter}>update chart</a>
                 <Select options = {options} value = {this.state.selection}

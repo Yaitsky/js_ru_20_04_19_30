@@ -1,0 +1,4 @@
+.valid-error {
+    outline: 2px solid red;
+    position: relative;
+}

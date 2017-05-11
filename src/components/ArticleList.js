@@ -30,6 +30,7 @@ class ArticleList extends Component {
 
     getContainerRef = ref => {
         this.list = ref
+        console.log(this.list);
     }
 }
 
