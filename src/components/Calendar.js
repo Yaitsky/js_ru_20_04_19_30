@@ -1,20 +1,28 @@
 import React, { Component } from 'react'
-import DayPicker from 'react-day-picker'
+import DayPicker, { DateUtils } from 'react-day-picker'
 import 'react-day-picker/lib/style.css'
 
 class Calendar extends Component {
     state = {
-        selectedDay: null
+        from: null,
+        to: null
     }
 
-    handleDayClick = (day, { selected }) => {
+    handleDayClick = day => {
+        const range = DateUtils.addDayToRange(day, this.state);
+        this.setState(range);
+    }
+
+    handleResetClick = e => {
+        e.preventDefault();
         this.setState({
-            selectedDay: selected ? undefined : day
-        })
+            from: null,
+            to: null
+        });
     }
     
     render() {
-        const { selectedDay } = this.state
+        const { from, to } = this.state;
         const style = {
             textAlign: 'center',
             fontSize: 20
@@ -22,12 +30,16 @@ class Calendar extends Component {
 
         return (
             <div>
-                <DayPicker 
-                    disabledDays={{ daysOfWeek: [0]}}
-                    selectedDays={this.state.selectedDays}
+                <DayPicker
+                    numberOfMonths={1}
+                    selectedDays={[from, { from, to }]}
                     onDayClick={this.handleDayClick}
                 />
-                <div style={style}>{selectedDay ? selectedDay.toLocaleDateString() : 'Please select a day'}</div>
+                <div style={style}>
+                    From: {from ? from.toLocaleDateString() : 'Выберите начало'} --- To: {to ? to.toLocaleDateString() : 'Выберите конец'}
+                    <br />
+                    <a href="#" onClick={this.handleResetClick}>Отменить выбор</a>
+                </div>
             </div>   
         );
     }
