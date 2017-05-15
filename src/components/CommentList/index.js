@@ -19,6 +19,7 @@ class CommentList extends Component {
                 <ul>
                     {comments.map(comment => <li key={comment.id}><Comment comment={comment}/></li>)}
                 </ul>
+                {/*форму стоит вынести в отдельный компонент*/}
                 <div>
                     User:
                     <input type="text" value={this.state.userName} onChange={this.handleChangeUser} ref = {this.setRefUser}/>
@@ -44,6 +45,7 @@ class CommentList extends Component {
         if (valueLength > 10) return;
 
         if (valueLength <= 3 && valueLength > 0) {
+            //Не лезь в DOM. Я же говорил, что этого стоит избегать, задача писать в декларативном стиле
             this.userInput.classList.add('valid-error');
         } else {
             this.userInput.classList.remove('valid-error');
