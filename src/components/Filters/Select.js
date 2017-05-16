@@ -2,15 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
+import {connect} from 'react-redux'
+import {articleSelection} from '../../AC/index'
 
 class SelectFilter extends Component {
     static propTypes = {
         articles: PropTypes.array
     };
-
-    state = {
-        selection: null
-    }
 
     render() {
         const options = this.props.articles.map(article => ({
@@ -19,14 +17,24 @@ class SelectFilter extends Component {
         }))
 
         return (
-            <Select options = {options} value = {this.state.selection}
+            <Select options = {options} value = {this.props.selection}
                     onChange = {this.handleSelectionChange}
                     multi = {true}
             />
         )
     }
 
-    handleSelectionChange = selection => this.setState({ selection })
+    handleSelectionChange = selection => {
+        const {articleSelection} = this.props
+        articleSelection(selection)
+    }
 }
 
-export default SelectFilter
+function mapStateToProps(storeState) {
+    return {
+        selection: storeState.articleSelection,
+        articles: storeState.articles
+    }
+}
+
+export default connect(mapStateToProps, {articleSelection})(SelectFilter)
