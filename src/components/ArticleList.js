@@ -11,11 +11,9 @@ class ArticleList extends Component {
         console.log('---', ref, findDOMNode(ref))
     }
 
-
     render() {
-        const {articles, toggleOpenItem, isItemOpened} = this.props
-
-        const elements = articles.map(article => <li key={article.id}>
+        const {toggleOpenItem, isItemOpened} = this.props
+        const elements = this.getFilteredArticles().map(article => <li key={article.id}>
             <Article article = {article}
                      isOpen = {isItemOpened(article.id)}
                      toggleOpen = {toggleOpenItem(article.id)}
@@ -32,6 +30,46 @@ class ArticleList extends Component {
     getContainerRef = ref => {
         this.list = ref
     }
+
+    getFilteredArticles() {
+        const {articles, articleSelection, dataSelection} = this.props
+        const {from, to} = dataSelection
+
+        if ((articleSelection.length == 0) && (from == null && to == null)) {
+            return articles;
+        } else if ((articleSelection.length != 0) && (from == null && to == null)) {
+            return articles.filter(article => {
+                for (let i = 0; i < articleSelection.length; i++) {
+                    if (article.id === articleSelection[i].value) {
+                        return true;
+                    }
+                }
+            });
+        } else if ((articleSelection.length == 0) && (from != null || to != null)) {
+            return articles.filter(article => {
+                const fromDate = new Date(from).getTime();
+                const articleDate = new Date(article.date).getTime();
+                const toDate = new Date(to).getTime();
+
+                if (articleDate >= fromDate && articleDate <= toDate) {
+                    return true;
+                }
+            });
+        } else {
+           return articles.filter(article => {
+                const fromDate = new Date(from).getTime();
+                const articleDate = new Date(article.date).getTime();
+                const toDate = new Date(to).getTime();
+
+                for (let i = 0; i < articleSelection.length; i++) {
+                    if ((article.id === articleSelection[i].value) && 
+                    (articleDate >= fromDate && articleDate <= toDate)) {
+                        return true;
+                    }
+                }
+            }); 
+        }
+    }
 }
 
 ArticleList.propTypes = {
@@ -42,5 +80,7 @@ ArticleList.propTypes = {
 }
 
 export default connect((state) => ({
-   articles: state.articles
+   articles: state.articles,
+   dataSelection: state.dataSelection,
+   articleSelection: state.articleSelection
 }))(accordion(ArticleList))
