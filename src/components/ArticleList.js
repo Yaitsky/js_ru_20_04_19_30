@@ -31,6 +31,7 @@ class ArticleList extends Component {
         this.list = ref
     }
 
+    //ок, но еще лучше делать фильтрацию в коннекте
     getFilteredArticles() {
         const {articles, articleSelection, dataSelection} = this.props
         const {from, to} = dataSelection
