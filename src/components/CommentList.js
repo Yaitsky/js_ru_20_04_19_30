@@ -18,6 +18,7 @@ class CommentList extends Component {
             isOpen: !this.state.isOpen
         })
         const {isLoaded, isLoading, loadComments} = this.props
+        //можно просто article.id
         if (!isLoading && !isLoaded) loadComments(this.props.article.get('id'))
     }
     
